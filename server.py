@@ -1,15 +1,20 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import sqlite3
 from database.database import get_patient_by_nhs, add_new_incident, get_all_patients, delete_patient_from_db, init_db, find_nearest_hospital, init_rescue_requests_db, save_rescue_request, update_request_status
 from geopy.geocoders import Nominatim
 
 init_db()
 init_rescue_requests_db()
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="templates")
 
 geolocator = Nominatim(user_agent="kwikmedical")
 
-
+@app.route('/')
+def index():
+    return render_template('index.html')  # Serve the front-end page
+@app.route('/report_incident')
+def report_incident():
+    return render_template('report_incident.html')
 @app.route('/add_incident', methods=['POST'])
 def add_incident():
     data = request.json

@@ -1,0 +1,172 @@
+/* General Styles */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #474646;
+    color: #d8baba;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h3 {
+    font-family: 'Dancing Script', serif;
+    color: #d8baba;
+    text-align: center;
+}
+
+h1 {
+    font-size: 60px;
+}
+
+h3 {
+    font-size: 40px;
+}
+
+/* Header */
+
+.header {
+    background-color: #1a1a1a;
+    padding: 2em;
+    text-align: center;
+}
+
+/* Navigation Bar */
+
+.nav ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    justify-content: center;
+    border-bottom: 2px solid #ff8c00;
+    border-top: 2px solid #ff8c00;
+}
+
+.nav li {
+    margin: 0;
+    padding: 0;
+    border-right: 1px solid #ff8c00;
+    border-left: 1px solid #ff8c00;
+}
+
+.nav li a {
+    display: block;
+    color: #d8baba;
+    text-align: center;
+    padding: 1em 2em;
+    font-size: 20px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav li a:hover {
+    color: #ff8c00;
+}
+
+/* Container and Main Content */
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.visible_box {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 25px rgba(24, 17, 17, 0.8);
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+/* Form Styling */
+
+form label {
+    font-size: 18px;
+    color: #ff8c00;
+}
+
+form input[type="text"], form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #d8baba;
+    border-radius: 5px;
+    background-color: #333;
+    color: #d8baba;
+}
+
+form button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #d8baba;
+    background-color: #1a1a1a;
+    border: 1px solid #d8baba;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #ff8c00;
+}
+
+/* Response Message */
+
+#response {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #ff8c00;
+}
+
+/* Footer */
+
+footer {
+    background-color: #1a1a1a;
+    padding: 20px 0;
+    text-align: center;
+    border-top: 2px solid #ff8c00;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+footer li {
+    margin: 0 10px;
+}
+
+footer li a {
+    color: #d8baba;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+footer li a:hover {
+    color: #ff8c00;
+}
+
+/* Image Styling */
+
+.image_container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.Images {
+    width: 75%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 5px 5px 25px rgba(24, 17, 17, 0.8);
+}
