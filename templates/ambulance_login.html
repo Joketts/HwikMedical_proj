@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Ambulance Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <h1>Ambulance Login</h1>
+    </header>
+
+    <main class="container">
+        <form id="login-form">
+            <label for="registration_number">Ambulance Registration Number:</label>
+            <input type="text" id="registration_number" name="registration_number" required>
+            <button type="button" onclick="loginAmbulance()">Login</button>
+        </form>
+
+        <div id="login-response"></div>
+    </main>
+
+    <script src="{{ url_for('static', filename='ambulance.js') }}"></script>
+</body>
+
+</html>
