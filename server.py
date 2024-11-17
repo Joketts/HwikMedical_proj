@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, render_template
 import sqlite3
 from database.database import get_patient_by_nhs, add_new_incident, get_all_patients, delete_patient_from_db, init_db, find_nearest_hospital, init_rescue_requests_db, save_rescue_request, update_request_status
 from geopy.geocoders import Nominatim
+import requests
 
 init_db()
 init_rescue_requests_db()
@@ -51,6 +52,7 @@ def add_incident():
         # Save the rescue request
         save_rescue_request(rescue_request_data)
 
+        send_rescue_request_to_hospital(rescue_request_data)
         # Simulate sending the request (for now, just update status to "Sent")
         # Here you could add real sending logic in the future
         rescue_request_data["status"] = "Sent"
@@ -71,6 +73,22 @@ def add_incident():
         }), 201
     else:
         return jsonify({"message": "Incident address not found"}), 400
+
+
+def send_rescue_request_to_hospital(rescue_request_data):
+    HOSPITAL_URL = "http://127.0.0.1:5001/receive_rescue_request"
+    print(f"Sending rescue request to hospital: {rescue_request_data}")
+
+    try:
+        response = requests.post(HOSPITAL_URL, json=rescue_request_data)
+        if response.status_code == 200:
+            print("Hospital response received successfully:")
+            print(response.json())
+        else:
+            print("Hospital response error:")
+            print(response.json())
+    except Exception as e:
+        print(f"Error communicating with hospital service: {e}")
 
 @app.route('/list_patients', methods=['GET'])
 def list_patients():

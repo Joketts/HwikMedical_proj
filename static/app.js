@@ -18,13 +18,33 @@ function submitIncident() {
     })
     .then(response => response.json())
     .then(data => {
-        document.getElementById("response").innerHTML = `<p>${data.message}</p>`;
+        const responseDiv = document.getElementById("response");
+        responseDiv.style.display = "block"; // Show the response box
+
+        // Display the main message
+        let outputText = `<p>${data.message}</p>`;
+
+        // Check if there's a rescue request and format it
         if (data.rescue_request) {
-            document.getElementById("response").innerHTML += `<p>Rescue Request: ${JSON.stringify(data.rescue_request)}</p>`;
+            const request = data.rescue_request;
+            outputText += `
+                <p><strong>Rescue Request Details:</strong></p>
+                <p>Patient Name: ${request.patient_name}</p>
+                <p>NHS Number: ${request.nhs_number}</p>
+                <p>Condition: ${request.condition}</p>
+                <p>Incident Address: ${request.incident_address}</p>
+                <p>Hospital Name: ${request.hospital_name}</p>
+                <p>Hospital Location: Latitude ${request.hospital_location[0]}, Longitude ${request.hospital_location[1]}</p>
+                <p>Distance to Hospital: ${request.distance_to_hospital.toFixed(2)} km</p>
+            `;
         }
+
+        responseDiv.innerHTML = outputText;
     })
     .catch(error => {
         console.error('Error:', error);
-        document.getElementById("response").innerHTML = "<p>Error submitting incident</p>";
+        const responseDiv = document.getElementById("response");
+        responseDiv.style.display = "block"; // Show the response box
+        responseDiv.innerHTML = "<p>Error submitting incident</p>";
     });
 }
