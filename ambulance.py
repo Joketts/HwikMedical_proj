@@ -110,6 +110,7 @@ def submit_actions():
             try:
                 response = requests.post(HOSPITAL_SERVER_URL, json={
                     "id": callout_id,
+                    "nhs_number": callout["nhs_number"],
                     "actions": actions,
                     "registration_number": reg_number,
                 })

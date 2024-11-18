@@ -26,8 +26,8 @@ def init_db():
         name TEXT,
         nhs_number TEXT UNIQUE,
         address TEXT,
-        conditions TEXT
-        actions TEXT DEFAULT NULL
+        conditions TEXT,
+        actions TEXT NULL 
     )''')
     conn_patient.commit()
     conn_patient.close()

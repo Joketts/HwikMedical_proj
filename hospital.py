@@ -149,21 +149,55 @@ def get_rescue_requests():
 def get_patient_records():
     conn = sqlite3.connect(PATIENT_RECORDS_DB)
     cursor = conn.cursor()
-    cursor.execute("SELECT name, nhs_number, address, conditions FROM patient_records")
-    patient_records = [{"name": row[0], "nhs_number": row[1], "address": row[2], "conditions": row[3]} for row in cursor.fetchall()]
+    cursor.execute("SELECT name, nhs_number, address, conditions, actions FROM patient_records")
+    patient_records = [
+        {
+            "name": row[0],
+            "nhs_number": row[1],
+            "address": row[2],
+            "conditions": row[3],
+            "actions": row[4] or "No actions recorded"  # Default message if actions is NULL
+        }
+        for row in cursor.fetchall()
+    ]
     conn.close()
     return jsonify(patient_records)
 
 @app.route('/update_callout', methods=['POST'])
 def update_callout():
     data = request.json
-    callout_id = data.get('id')
+    nhs_number = data.get('nhs_number')
     actions = data.get('actions')
     reg_number = data.get('registration_number')
 
-    # Example: Update patient records or logs
-    print(f"Updating call-out {callout_id} with actions: {actions} (Ambulance: {reg_number})")
-    return jsonify({"message": "Call-out updated successfully"})
+    # Update the patient record with the provided actions
+    conn = sqlite3.connect(PATIENT_RECORDS_DB)
+    cursor = conn.cursor()
+
+    # Retrieve the existing actions for the patient
+    cursor.execute("SELECT actions FROM patient_records WHERE nhs_number = ?", (nhs_number,))
+    result = cursor.fetchone()
+
+    if result:
+        existing_actions = result[0]  # Existing actions as a string
+        if existing_actions:
+            updated_actions = f"{existing_actions}, {actions}"  # Append new action
+        else:
+            updated_actions = actions  # First action if no existing ones
+
+        # Update the actions field in the database
+        cursor.execute(
+            "UPDATE patient_records SET actions = ? WHERE nhs_number = ?",
+            (updated_actions, nhs_number)
+        )
+        conn.commit()
+        print(f"Updated actions for NHS Number {nhs_number}: {updated_actions}")
+        conn.close()
+        return jsonify({"message": "Patient record updated successfully"}), 200
+    else:
+        conn.close()
+        print(f"No patient found with NHS Number {nhs_number}")
+        return jsonify({"message": "Patient record not found"}), 404
 
 # Run the Flask app
 if __name__ == '__main__':

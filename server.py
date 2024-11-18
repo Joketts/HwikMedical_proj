@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 import sqlite3
-from database.database import get_patient_by_nhs, add_new_incident, get_all_patients, delete_patient_from_db, init_db, find_nearest_hospital, init_rescue_requests_db, save_rescue_request, update_request_status
+from database.database import get_patient_by_nhs, add_new_incident, init_db, find_nearest_hospital, init_rescue_requests_db, save_rescue_request, update_request_status
 from geopy.geocoders import Nominatim
 import requests
 

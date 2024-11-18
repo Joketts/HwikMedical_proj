@@ -14,11 +14,14 @@ function fetchPatientRecords() {
                     <td>${record.nhs_number}</td>
                     <td>${record.address}</td>
                     <td>${record.conditions}</td>
+                    <td>${record.actions || 'No actions recorded'}</td> <!-- Display actions -->
                 `;
                 tableBody.appendChild(row);
             });
-        });
+        })
+        .catch(error => console.error('Error fetching patient records:', error));
 }
+
 
 // Fetch and update rescue requests for logged-in hospital
 function fetchRescueRequests() {
