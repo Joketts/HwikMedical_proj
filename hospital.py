@@ -1,19 +1,73 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 import sqlite3
 import requests
 
 # Initialize the Flask app
 app = Flask(__name__, static_folder="static", template_folder="templates")
-
+app.secret_key = 'your_secret_key'
 # Database paths
 PATIENT_RECORDS_DB = 'database/patient_records.db'
 
-@app.route('/')
+rescue_requests_storage = []
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        hospital_name = request.form['hospital_name']
+        password = request.form['password']
+
+        # Validate login credentials
+        conn = sqlite3.connect("database/scottish_hospitals.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM hospitals WHERE name = ? AND password = ?", (hospital_name, password))
+        hospital = cursor.fetchone()
+        conn.close()
+
+        if hospital:
+            session['hospital_name'] = hospital_name  # Store logged-in hospital in session
+            return redirect(url_for('navigation'))
+        else:
+            return render_template('login.html', error="Invalid username or password.")
+    return render_template('hospital_login.html')
+
+@app.route('/navigation')
+def navigation():
+    if 'hospital_name' not in session:
+        return redirect(url_for('login'))
+
+    hospital_name = session['hospital_name']
+    return render_template('hospital_navigation.html', hospital_name=hospital_name)
+
+@app.route('/dashboard')
 def dashboard():
+    if 'hospital_name' not in session:
+        return redirect(url_for('login'))
+
+    hospital_name = session['hospital_name']
+    return render_template('hospital_rescue_requests.html', hospital_name=hospital_name)
+
+
+@app.route('/patient_records')
+def patient_records():
+    if 'hospital_name' not in session:
+        return redirect(url_for('login'))
+
     return render_template('hospital_index.html')
 
-#for front end storage
-rescue_requests_storage = []
+
+
+@app.route('/api/hospital_rescue_requests', methods=['GET'])
+def get_hospital_rescue_requests():
+    if 'hospital_name' not in session:
+        return jsonify({"error": "Not authorized"}), 401
+
+    hospital_name = session['hospital_name']
+    filtered_requests = [req for req in rescue_requests_storage if req['hospital_name'] == hospital_name]
+    return jsonify(filtered_requests)
+
+@app.route('/logout')
+def logout():
+    session.pop('hospital_name', None)
+    return redirect(url_for('login'))
 
 # Route to receive rescue requests
 @app.route('/receive_rescue_request', methods=['POST'])
@@ -100,7 +154,16 @@ def get_patient_records():
     conn.close()
     return jsonify(patient_records)
 
+@app.route('/update_callout', methods=['POST'])
+def update_callout():
+    data = request.json
+    callout_id = data.get('id')
+    actions = data.get('actions')
+    reg_number = data.get('registration_number')
 
+    # Example: Update patient records or logs
+    print(f"Updating call-out {callout_id} with actions: {actions} (Ambulance: {reg_number})")
+    return jsonify({"message": "Call-out updated successfully"})
 
 # Run the Flask app
 if __name__ == '__main__':

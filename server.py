@@ -90,17 +90,6 @@ def send_rescue_request_to_hospital(rescue_request_data):
     except Exception as e:
         print(f"Error communicating with hospital service: {e}")
 
-@app.route('/list_patients', methods=['GET'])
-def list_patients():
-    patients = get_all_patients()
-    return jsonify({"patients": patients})
-
-@app.route('/delete_patient', methods=['DELETE'])
-def delete_patient():
-    nhs_number = request.json.get("nhs_number")
-    delete_patient_from_db(nhs_number)
-    return jsonify({"message": "Patient deleted successfully"})
-
 @app.route('/patient_info', methods=['POST'])
 def patient_info():
     data = request.json

@@ -27,6 +27,7 @@ def init_db():
         nhs_number TEXT UNIQUE,
         address TEXT,
         conditions TEXT
+        actions TEXT DEFAULT NULL
     )''')
     conn_patient.commit()
     conn_patient.close()
@@ -80,21 +81,7 @@ def get_patient_by_nhs(nhs_number):
     conn.close()
     return result
 # lists incident patients
-def get_all_patients():
-    conn = sqlite3.connect('database/incident_report.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM patients")
-    patients = cursor.fetchall()
-    conn.close()
-    return patients
 
-# deletes patient from incident
-def delete_patient_from_db(nhs_number):
-    conn = sqlite3.connect('database/incident_report.db')
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM patients WHERE nhs_number = ?", (nhs_number,))
-    conn.commit()
-    conn.close()
 
 #hospital_code
 
@@ -182,6 +169,8 @@ def update_request_status(request_id, status):
     cursor.execute("UPDATE rescue_requests SET status = ? WHERE id = ?", (status, request_id))
     conn.commit()
     conn.close()
+
+
 
 if __name__ == '__main__':
     init_db()

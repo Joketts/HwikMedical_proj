@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Hospital Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <h1>Hospital Login</h1>
+    </header>
+
+    <main class="container">
+        <form method="POST">
+            <label for="hospital_name">Hospital Name:</label>
+            <input type="text" id="hospital_name" name="hospital_name" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            {% if error %}
+            <p style="color: red;">{{ error }}</p>
+            {% endif %}
+
+            <button type="submit">Login</button>
+        </form>
+    </main>
+</body>
+
+</html>

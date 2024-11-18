@@ -61,15 +61,52 @@ function acceptCallOut(callOutId) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: callOutId, registration_number: 'REG123' }), // Example reg number
+        body: JSON.stringify({ id: callOutId, registration_number: registrationNumber }),
     })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message); // Notify user
-            fetchCallOuts(); // Refresh the list
+        .then((response) => response.json())
+        .then((data) => {
+            alert(data.message);
+            if (data.message.includes("accepted")) {
+                // Redirect to action page with call-out ID
+                window.location.href = `/ambulance/actions/${callOutId}`;
+            }
         })
-        .catch(error => console.error('Error accepting call-out:', error));
+        .catch((error) => console.error('Error:', error));
 }
+
+function submitActions() {
+    const callOutId = window.location.pathname.split('/').pop(); // Extract call-out ID from URL
+    const actionsTaken = document.getElementById('actions_taken').value;
+
+    fetch('/ambulance/submit_actions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: callOutId,
+            actions: actionsTaken,
+            registration_number: registrationNumber,
+        }),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            const actionResponse = document.getElementById('action-response');
+            actionResponse.innerHTML = `<p>${data.message}</p>`;
+
+            if (data.message.includes("successfully")) {
+                // Redirect to callouts page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = '/index';
+                }, 2000); // Delay to let user read the message
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('Failed to submit actions. Please try again.');
+        });
+}
+
 
 // Fetch call-outs every 5 seconds
 setInterval(fetchCallOuts, 5000);

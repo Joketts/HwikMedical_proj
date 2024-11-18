@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Hospital Navigation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <h1>Welcome, {{ hospital_name }}</h1>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </header>
+
+    <main class="container">
+        <h2>Choose an Option:</h2>
+        <ul>
+            <li><a href="{{ url_for('dashboard') }}">View Incoming Rescue Requests</a></li>
+            <li><a href="{{ url_for('patient_records') }}">View Patient Records</a></li>
+        </ul>
+    </main>
+</body>
+
+</html>

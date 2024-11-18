@@ -2,32 +2,34 @@
 <html lang="en">
 
 <head>
-    <title>Patient Records</title>
+    <title>Incoming Rescue Requests</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='hospitalfetch.js') }}"></script>
 </head>
 
 <body>
     <header class="header">
-        <h1>Patient Records</h1>
+        <h1>Incoming Rescue Requests</h1>
         <a href="{{ url_for('logout') }}">Logout</a>
     </header>
 
     <main class="container">
         <button onclick="window.location.href='{{ url_for('navigation') }}'">Back to Navigation</button>
         <section>
-            <h2>All Patient Records</h2>
-            <table id="patient-records">
+            <h2>Rescue Requests for {{ hospital_name }}</h2>
+            <table id="rescue-requests">
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Patient Name</th>
                         <th>NHS Number</th>
-                        <th>Address</th>
-                        <th>Conditions</th>
+                        <th>Condition</th>
+                        <th>Incident Address</th>
+                        <th>Status</th>
+                        <th>Distance to Hospital</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Patient records will be dynamically added here -->
+                    <!-- Rescue requests will be dynamically added here -->
                 </tbody>
             </table>
         </section>
