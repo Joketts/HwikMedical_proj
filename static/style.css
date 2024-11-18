@@ -1,244 +1,301 @@
-/* General Styles */
-
+/* General Body Styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #474646;
-    color: #d8baba;
+    background-color: #e8f4fc; /* Light Blue Background */
     margin: 0;
     padding: 0;
+    color: #4c4c4c; /* Dark Gray Text */
 }
 
-h1, h3 {
-    font-family: 'Dancing Script', serif;
-    color: #d8baba;
+/* Header Styling */
+header {
+    background-color: #005eb8; /* Primary NHS Blue */
+    color: #ffffff;
+    padding: 35px 20px;
     text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    font-size: 60px;
-}
-
-h3 {
-    font-size: 40px;
-}
-
-/* Header */
-
-.header {
-    background-color: #1a1a1a;
-    padding: 2em;
-    text-align: center;
-}
-
-/* Navigation Bar */
-
-.nav ul {
-    display: flex;
-    list-style-type: none;
+header h1 {
+    font-size: 50px;
     margin: 0;
-    padding: 0;
-    background-color: #1a1a1a;
-    justify-content: center;
-    border-bottom: 2px solid #ff8c00;
-    border-top: 2px solid #ff8c00;
-}
-
-.nav li {
-    margin: 0;
-    padding: 0;
-    border-right: 1px solid #ff8c00;
-    border-left: 1px solid #ff8c00;
-}
-
-.nav li a {
-    display: block;
-    color: #d8baba;
-    text-align: center;
-    padding: 1em 2em;
-    font-size: 20px;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.nav li a:hover {
-    color: #ff8c00;
-}
-
-/* Container and Main Content */
-
-.container {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    padding: 20px;
-}
-
-.visible_box {
-    background-color: #1a1a1a;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 5px 5px 25px rgba(24, 17, 17, 0.8);
-    max-width: 600px;
-    margin: 20px auto;
-}
-
-/* Form Styling */
-
-form label {
-    font-size: 18px;
-    color: #ff8c00;
-}
-
-form input[type="text"], form textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #d8baba;
-    border-radius: 5px;
-    background-color: #333;
-    color: #d8baba;
-}
-
-form button {
-    display: inline-block;
-    padding: 10px 20px;
-    color: #d8baba;
-    background-color: #1a1a1a;
-    border: 1px solid #d8baba;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-form button:hover {
-    background-color: #ff8c00;
-}
-
-/* Response Message */
-
-#response {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #ff8c00;
-}
-
-/* Footer */
-
-footer {
-    background-color: #1a1a1a;
-    padding: 20px 0;
-    text-align: center;
-    border-top: 2px solid #ff8c00;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
-footer ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-}
-
-footer li {
-    margin: 0 10px;
-}
-
-footer li a {
-    color: #d8baba;
-    text-decoration: none;
-    font-size: 18px;
-    transition: color 0.3s;
-}
-
-footer li a:hover {
-    color: #ff8c00;
-}
-
-/* Image Styling */
-
-#response {
-    display: none; /* Hide the response box initially */
-    margin-top: 20px;
-    padding: 15px;
-    font-size: 18px;
-    color: #ff8c00;
-    background-color: #1a1a1a;
-    border: 1px solid #ff8c00;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.image_container {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.Images {
-    width: 75%;
-    height: auto;
-    border-radius: 15px;
-    box-shadow: 5px 5px 25px rgba(24, 17, 17, 0.8);
+    font-weight: bold;
 }
 
 
-/* Hospital Page */
-
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-
-.header {
-    background-color: #1a1a1a;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-}
-
-.container {
-    padding: 20px;
-}
-
-/* Tables */
+/* Table Styling */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
+    border: 1px solid #dddddd;
     text-align: left;
+    padding: 12px;
 }
 
 th {
-    background-color: #1a1a1a;
-    color: #fff;
+    background-color: #0072ce; /* Secondary NHS Blue */
+    color: #ffffff;
 }
 
-tr:nth-child(even) {
-    background-color: #f2f2f2;
+td {
+    background-color: #f9f9f9;
 }
 
-tr:hover {
-    background-color: #ddd;
+tr:nth-child(even) td {
+    background-color: #f1f9ff; /* Very Light Blue */
+}
+
+/* Button Styling */
+
+/* Button Styling */
+.btn-primary {
+    display: inline-block;
+    background-color: #005eb8; /* NHS Blue */
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #003d73; /* Darker Blue */
+}
+
+/* Main Content Styling */
+.container {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 50px auto;
+}
+
+button {
+    background-color: #005eb8; /* Primary NHS Blue */
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background-color: #003d73; /* Darker Blue */
+}
+
+/* Link Styling */
+a {
+    color: #005eb8; /* Primary NHS Blue */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 /* Section Headings */
 h2 {
-    color: #1a1a1a;
-    border-bottom: 2px solid #ddd;
+    color: #005eb8; /* Primary NHS Blue */
+    border-bottom: 2px solid #0072ce; /* Secondary Blue */
     padding-bottom: 5px;
+}
+
+/* Hospital Login Specific Styling */
+.login-container {
+    width: 500px; /* Specific width for the login form */
+    margin: 100px auto; /* Center the form vertically and horizontally */
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.login-container input {
+    width: 95%; /* Full width for inputs */
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.login-container button {
+    width: 100%; /* Full width for the button */
+    padding: 12px;
+    font-size: 16px;
+    background-color: #005eb8; /* NHS Blue */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-container button:hover {
+    background-color: #003b73; /* Darker NHS Blue */
+}
+
+/* Navigation Container Styling */
+.navigation-container {
+    width: 600px;
+    margin: 100px auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.navigation-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #005eb8; /* NHS Blue */
+}
+
+/* Navigation Links Styling */
+.navigation-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navigation-links li {
+    margin: 15px 0;
+}
+
+.navigation-links .nav-link {
+    display: inline-block;
+    font-size: 18px;
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: #005eb8; /* NHS Blue */
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.navigation-links .nav-link:hover {
+    background-color: #003b73; /* Darker NHS Blue */
+}
+
+/* Logout Button Styling */
+.logout-button {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: white;
+    background-color: #d9534f; /* NHS Alert Red */
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #b52b27; /* Darker Alert Red */
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column; /* Stack the inputs vertically */
+    gap: 15px; /* Space between form elements */
+}
+
+/* Input Field Styling */
+form input[type="text"] {
+    padding: 10px; /* Add padding inside the input fields */
+    font-size: 16px; /* Increase font size */
+    border: 1px solid #cccccc; /* Light gray border */
+    border-radius: 4px; /* Rounded edges */
+}
+
+/* Submit Button Styling */
+form button {
+    background-color: #005eb8; /* NHS Blue */
+    color: #ffffff; /* White text */
+    padding: 10px 15px; /* Comfortable button size */
+    font-size: 16px; /* Bigger font for the button */
+    font-weight: bold; /* Bold text */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded edges */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+form button:hover {
+    background-color: #003d73; /* Darker NHS Blue on hover */
+}
+
+/* Response Section Styling */
+#response {
+    display: none; /* Hidden by default */
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #e6f7ff;
+    border: 1px solid #005eb8;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333333;
+    line-height: 1.6;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading inside the response */
+#response h3 {
+    margin-top: 0; /* Remove default margin from heading */
+    color: #005eb8; /* NHS Blue for headings */
+    font-size: 20px; /* Slightly larger font for heading */
+}
+
+/* Key details in bold */
+#response strong {
+    color: #333333; /* Emphasize key details with dark text */
+}
+
+#action-response {
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #333; /* Text color */
+    background-color: #e0f7fa; /* Light blue background */
+    border: 1px solid #00acc1; /* Darker blue border */
+    border-radius: 8px;
+    text-align: center;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    display: none; /* Hide by default */
+}
+
+#action-response.success {
+    background-color: #d4edda; /* Light green background for success */
+    border-color: #28a745; /* Green border */
+    color: #155724; /* Dark green text */
+}
+
+
+/* Error or Warning Messages */
+.error {
+    color: #d4351c; /* NHS Red for Errors */
+    font-weight: bold;
 }

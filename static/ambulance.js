@@ -95,6 +95,8 @@ function submitActions() {
 
             if (data.message.includes("successfully")) {
                 // Redirect to callouts page after 2 seconds
+                actionResponse.classList.add('success'); // Add success style
+                actionResponse.style.display = 'block'; // Show the response box
                 setTimeout(() => {
                     window.location.href = '/index';
                 }, 2000); // Delay to let user read the message
