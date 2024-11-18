@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 import requests
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
@@ -31,7 +31,6 @@ def receive_medical_records():
             "nhs_number": patient_data["nhs_number"],
             "condition": rescue_request["condition"],
             "incident_address": rescue_request["incident_address"],
-            "priority": rescue_request.get("priority", "Not specified"),
             "status": "Pending",
         }
         callouts.append(callout)
@@ -63,19 +62,37 @@ def get_callouts():
     print(f"Serving call-outs: {relevant_callouts}")  # Debugging print statement
     return jsonify(relevant_callouts)
 
+
 @app.route('/ambulance/accept_callout', methods=['POST'])
 def accept_callout():
     data = request.json
     callout_id = data.get('id')
     reg_number = data.get('registration_number')
 
-    for callout in callouts:
-        if callout['id'] == callout_id and callout['status'] == "Pending":
-            callout['status'] = "Pending Actions"
-            callout['ambulance'] = reg_number
-            return jsonify({"message": f"Call-out {callout_id} accepted by ambulance {reg_number}"})
+    callout = next((c for c in callouts if c["id"] == callout_id), None)
 
-    return jsonify({"message": "Call-out not found or already accepted"}), 400
+    if callout and callout["status"] == "Pending":
+        callout["status"] = "Pending Actions"
+        callout["ambulance"] = reg_number
+
+        # Notify the hospital about the accepted callout
+        try:
+            response = requests.post('http://127.0.0.1:5001/update_request_status', json={
+                "nhs_number": callout["nhs_number"],
+                "status": "Taken",
+            })
+            if response.status_code == 200:
+                print(f"Hospital notified successfully for call-out {callout_id}")
+            else:
+                print(f"Failed to notify hospital: {response.status_code} - {response.text}")
+        except Exception as e:
+            print(f"Error communicating with hospital: {e}")
+
+        # Redirect to actions page regardless of notification success
+        return jsonify({"message": f"Call-out {callout_id} accepted"}), 200
+
+    return jsonify({"message": "Call-out not found or already taken"}), 400
+
 
 @app.route('/ambulance/actions/<int:callout_id>', methods=['GET'])
 def action_page(callout_id):
@@ -86,7 +103,6 @@ def action_page(callout_id):
     else:
         return jsonify({"message": "Call-out not found"}), 404
 
-HOSPITAL_SERVER_URL = "http://127.0.0.1:5001/update_callout"
 
 @app.route('/ambulance/submit_actions', methods=['POST'])
 def submit_actions():
@@ -95,38 +111,41 @@ def submit_actions():
     actions = data.get('actions')
     reg_number = data.get('registration_number')
 
-    # Find the call-out in the current list
     callout = next((c for c in callouts if c["id"] == callout_id), None)
 
-    if callout:
-        # Ensure the call-out is in "Pending Actions" status before completing
-        if callout["status"] == "Pending Actions":
-            callout["actions"] = actions
-            callout["status"] = "Completed"
+    if callout and callout["status"] == "Pending Actions":
+        callout["actions"] = actions
+        callout["status"] = "Completed"
 
-            print(f"Submitting actions for call-out {callout_id}: {actions}")
+        print(f"Submitting actions for call-out {callout_id}: {actions}")
 
-            # Send actions to the hospital server
-            try:
-                response = requests.post(HOSPITAL_SERVER_URL, json={
-                    "id": callout_id,
-                    "nhs_number": callout["nhs_number"],
-                    "actions": actions,
-                    "registration_number": reg_number,
-                })
-                if response.status_code == 200:
-                    print(f"Hospital server updated successfully for call-out {callout_id}")
-                    return jsonify({"message": "Actions submitted successfully to the hospital server"})
-                else:
-                    print(f"Hospital server returned error: {response.status_code}")
-                    return jsonify({"message": "Failed to update hospital server"}), 500
-            except Exception as e:
-                print(f"Error sending actions to hospital server: {e}")
-                return jsonify({"message": "Error communicating with hospital server"}), 500
-        elif callout["status"] == "Completed":
-            return jsonify({"message": "Call-out already completed"}), 400
+        # Notify the hospital about the status update
+        try:
+            response = requests.post('http://127.0.0.1:5001/update_request_status', json={
+                "nhs_number": callout["nhs_number"],
+                "status": "Completed",
+            })
+            if response.status_code != 200:
+                print("Failed to notify hospital about status update")
+        except Exception as e:
+            print(f"Error notifying hospital about status update: {e}")
 
-    return jsonify({"message": "Call-out not found"}), 400
+        # Submit the actions to the hospital server
+        try:
+            response = requests.post("http://127.0.0.1:5001/update_callout", json={
+                "nhs_number": callout["nhs_number"],
+                "actions": actions,
+                "registration_number": reg_number,
+            })
+            if response.status_code == 200:
+                return jsonify({"message": "Actions submitted successfully to the hospital server"})
+            else:
+                return jsonify({"message": "Failed to update hospital server"}), 500
+        except Exception as e:
+            print(f"Error sending actions to hospital server: {e}")
+            return jsonify({"message": "Error communicating with hospital server"}), 500
+
+    return jsonify({"message": "Call-out not found or already completed"}), 400
 
 if __name__ == '__main__':
     print("Ambulance service is running on port 5003...")

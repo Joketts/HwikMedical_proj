@@ -46,7 +46,6 @@ function fetchCallOuts() {
                     <td>${callOut.patient_name}</td>
                     <td>${callOut.condition}</td>
                     <td>${callOut.incident_address}</td>
-                    <td>${callOut.priority}</td>
                     <td><button onclick="acceptCallOut(${callOut.id})">Accept</button></td>
                 `;
                 tableBody.appendChild(row);

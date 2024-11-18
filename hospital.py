@@ -163,6 +163,35 @@ def get_patient_records():
     conn.close()
     return jsonify(patient_records)
 
+@app.route('/update_request_status', methods=['POST'])
+def update_request_status():
+    try:
+        # Parse JSON data
+        if not request.is_json:
+            return jsonify({"message": "Invalid JSON format"}), 400
+
+        data = request.get_json()  # Safely parse JSON
+        nhs_number = data.get('nhs_number')
+        status = data.get('status')
+
+        if not nhs_number or not status:
+            return jsonify({"message": "Missing required fields"}), 400
+
+        # Update the status of the relevant rescue request
+        for req in rescue_requests_storage:
+            if req["nhs_number"] == nhs_number:
+                req["status"] = status
+                print(f"Updated status for NHS Number {nhs_number} to {status}")
+                return jsonify({"message": "Rescue request status updated successfully"}), 200
+
+        print(f"No rescue request found for NHS Number {nhs_number}")
+        return jsonify({"message": "Rescue request not found"}), 404
+    except Exception as e:
+        print(f"Error in /update_request_status: {e}")
+        return jsonify({"message": "Internal server error"}), 500
+
+
+
 @app.route('/update_callout', methods=['POST'])
 def update_callout():
     data = request.json
