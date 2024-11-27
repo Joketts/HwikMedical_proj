@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 import sqlite3
-from database.database import get_patient_by_nhs, add_new_incident, init_db, find_nearest_hospital, init_rescue_requests_db, save_rescue_request, update_request_status
+from database.database import add_new_incident, init_db, find_nearest_hospital, init_rescue_requests_db, save_rescue_request, update_request_status
 from geopy.geocoders import Nominatim
 import requests
 
@@ -90,25 +90,6 @@ def send_rescue_request_to_hospital(rescue_request_data):
     except Exception as e:
         print(f"Error communicating with hospital service: {e}")
 
-@app.route('/patient_info', methods=['POST'])
-def patient_info():
-    data = request.json
-    nhs_number = data.get("nhs_number")
-
-    if not nhs_number or not nhs_number.isdigit():
-        return jsonify({"message": "Invalid NHS number"}), 400
-
-    patient = get_patient_by_nhs(nhs_number)
-    if patient:
-        return jsonify({"message": "Patient information", "data": {
-            "id": patient[0],
-            "name": patient[1],
-            "nhs_number": patient[2],
-            "address": patient[3],
-            "condition": patient[4]
-        }})
-    else:
-        return jsonify({"message": "Patient not found"}), 404
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

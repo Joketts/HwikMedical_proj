@@ -5,19 +5,6 @@ DATABASE_PATH_INCIDENT = 'database/incident_report.db'
 DATABASE_PATH_PATIENT = 'database/patient_records.db'
 
 def init_db():
-    # Initialize incident report database
-    conn_incident = sqlite3.connect(DATABASE_PATH_INCIDENT)
-    cursor_incident = conn_incident.cursor()
-    cursor_incident.execute('''CREATE TABLE IF NOT EXISTS incident_report (
-        id INTEGER PRIMARY KEY,
-        name TEXT,
-        nhs_number TEXT UNIQUE,
-        incident_address TEXT,
-        condition TEXT
-    )''')
-    conn_incident.commit()
-    conn_incident.close()
-
     # Initialize patient records database
     conn_patient = sqlite3.connect(DATABASE_PATH_PATIENT)
     cursor_patient = conn_patient.cursor()
@@ -33,25 +20,6 @@ def init_db():
     conn_patient.close()
 
 def add_new_incident(name, nhs_number, address, condition):
-    conn_incident = sqlite3.connect(DATABASE_PATH_INCIDENT)
-    cursor_incident = conn_incident.cursor()
-
-    # Check if an entry with the same NHS number already exists in incident report
-    cursor_incident.execute("SELECT condition FROM incident_report WHERE nhs_number = ?", (nhs_number,))
-    incident_result = cursor_incident.fetchone()
-
-    if incident_result:
-        # Replace the existing condition with the new one
-        cursor_incident.execute("UPDATE incident_report SET condition = ?, incident_address = ? WHERE nhs_number = ?",
-                                (condition, address, nhs_number))
-    else:
-        # Insert a new incident if it doesn't exist
-        cursor_incident.execute("INSERT INTO incident_report (name, nhs_number, incident_address, condition) VALUES (?, ?, ?, ?)",
-                                (name, nhs_number, address, condition))
-
-    conn_incident.commit()
-    conn_incident.close()
-
     # Update patient records with the new condition
     conn_patient = sqlite3.connect(DATABASE_PATH_PATIENT)
     cursor_patient = conn_patient.cursor()
@@ -71,17 +39,6 @@ def add_new_incident(name, nhs_number, address, condition):
 
     conn_patient.commit()
     conn_patient.close()
-
-# gets incident patient record
-def get_patient_by_nhs(nhs_number):
-    conn = sqlite3.connect('database/incident_report.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM patients WHERE nhs_number = ?", (nhs_number,))
-    result = cursor.fetchone()
-    conn.close()
-    return result
-# lists incident patients
-
 
 #hospital_code
 
