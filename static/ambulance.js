@@ -1,6 +1,5 @@
 let registrationNumber = null;
 
-// Login function
 function loginAmbulance() {
     const regNumber = document.getElementById('registration_number').value;
 
@@ -25,7 +24,6 @@ function loginAmbulance() {
         .catch((error) => console.error('Error:', error));
 }
 
-// Fetch and display call-outs
 function fetchCallOuts() {
     fetch('/ambulance/callouts')
         .then(response => response.json())
@@ -94,12 +92,11 @@ function submitActions() {
             actionResponse.innerHTML = `<p>${data.message}</p>`;
 
             if (data.message.includes("successfully")) {
-                // Redirect to callouts page after 2 seconds
-                actionResponse.classList.add('success'); // Add success style
-                actionResponse.style.display = 'block'; // Show the response box
+                actionResponse.classList.add('success');
+                actionResponse.style.display = 'block';
                 setTimeout(() => {
                     window.location.href = '/index';
-                }, 2000); // Delay to let user read the message
+                }, 2000);
             }
         })
         .catch((error) => {
@@ -109,5 +106,5 @@ function submitActions() {
 }
 
 
-// Fetch call-outs every 5 seconds
+
 setInterval(fetchCallOuts, 5000);

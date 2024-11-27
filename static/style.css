@@ -1,15 +1,15 @@
-/* General Body Styling */
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #e8f4fc; /* Light Blue Background */
+    background-color: #e8f4fc;
     margin: 0;
     padding: 0;
-    color: #4c4c4c; /* Dark Gray Text */
+    color: #4c4c4c;
 }
 
-/* Header Styling */
+
 header {
-    background-color: #005eb8; /* Primary NHS Blue */
+    background-color: #005eb8;
     color: #ffffff;
     padding: 35px 20px;
     text-align: center;
@@ -23,7 +23,6 @@ header h1 {
 }
 
 
-/* Table Styling */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -37,7 +36,7 @@ th, td {
 }
 
 th {
-    background-color: #0072ce; /* Secondary NHS Blue */
+    background-color: #0072ce;
     color: #ffffff;
 }
 
@@ -46,15 +45,13 @@ td {
 }
 
 tr:nth-child(even) td {
-    background-color: #f1f9ff; /* Very Light Blue */
+    background-color: #f1f9ff;
 }
 
-/* Button Styling */
 
-/* Button Styling */
 .btn-primary {
     display: inline-block;
-    background-color: #005eb8; /* NHS Blue */
+    background-color: #005eb8;
     color: #ffffff;
     text-decoration: none;
     font-size: 20px;
@@ -66,10 +63,10 @@ tr:nth-child(even) td {
 }
 
 .btn-primary:hover {
-    background-color: #003d73; /* Darker Blue */
+    background-color: #003d73;
 }
 
-/* Main Content Styling */
+
 .container {
     text-align: center;
     background-color: #ffffff;
@@ -81,7 +78,7 @@ tr:nth-child(even) td {
 }
 
 button {
-    background-color: #005eb8; /* Primary NHS Blue */
+    background-color: #005eb8;
     color: #ffffff;
     border: none;
     padding: 10px 15px;
@@ -92,12 +89,12 @@ button {
 }
 
 button:hover {
-    background-color: #003d73; /* Darker Blue */
+    background-color: #003d73;
 }
 
-/* Link Styling */
+
 a {
-    color: #005eb8; /* Primary NHS Blue */
+    color: #005eb8;
     text-decoration: none;
 }
 
@@ -105,17 +102,17 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Section Headings */
+
 h2 {
-    color: #005eb8; /* Primary NHS Blue */
-    border-bottom: 2px solid #0072ce; /* Secondary Blue */
+    color: #005eb8;
+    border-bottom: 2px solid #0072ce;
     padding-bottom: 5px;
 }
 
-/* Hospital Login Specific Styling */
+
 .login-container {
-    width: 500px; /* Specific width for the login form */
-    margin: 100px auto; /* Center the form vertically and horizontally */
+    width: 500px;
+    margin: 100px auto;
     background-color: white;
     padding: 20px;
     border-radius: 8px;
@@ -130,7 +127,7 @@ h2 {
 }
 
 .login-container input {
-    width: 95%; /* Full width for inputs */
+    width: 95%;
     padding: 12px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
@@ -139,10 +136,10 @@ h2 {
 }
 
 .login-container button {
-    width: 100%; /* Full width for the button */
+    width: 100%;
     padding: 12px;
     font-size: 16px;
-    background-color: #005eb8; /* NHS Blue */
+    background-color: #005eb8;
     color: white;
     border: none;
     border-radius: 4px;
@@ -151,10 +148,10 @@ h2 {
 }
 
 .login-container button:hover {
-    background-color: #003b73; /* Darker NHS Blue */
+    background-color: #003b73;
 }
 
-/* Navigation Container Styling */
+
 .navigation-container {
     width: 600px;
     margin: 100px auto;
@@ -168,10 +165,9 @@ h2 {
 .navigation-container h2 {
     margin-bottom: 20px;
     font-size: 24px;
-    color: #005eb8; /* NHS Blue */
+    color: #005eb8;
 }
 
-/* Navigation Links Styling */
 .navigation-links {
     list-style: none;
     padding: 0;
@@ -187,23 +183,22 @@ h2 {
     font-size: 18px;
     padding: 10px 20px;
     text-decoration: none;
-    background-color: #005eb8; /* NHS Blue */
+    background-color: #005eb8;
     color: white;
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
 
 .navigation-links .nav-link:hover {
-    background-color: #003b73; /* Darker NHS Blue */
+    background-color: #003b73;
 }
 
-/* Logout Button Styling */
 .logout-button {
     display: inline-block;
     margin-top: 10px;
     font-size: 14px;
     color: white;
-    background-color: #d9534f; /* NHS Alert Red */
+    background-color: #d9534f;
     text-decoration: none;
     padding: 8px 12px;
     border-radius: 4px;
@@ -211,44 +206,44 @@ h2 {
 }
 
 .logout-button:hover {
-    background-color: #b52b27; /* Darker Alert Red */
+    background-color: #b52b27;
 }
 
 /* Form Styling */
 form {
     display: flex;
-    flex-direction: column; /* Stack the inputs vertically */
-    gap: 15px; /* Space between form elements */
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* Input Field Styling */
+
 form input[type="text"] {
-    padding: 10px; /* Add padding inside the input fields */
-    font-size: 16px; /* Increase font size */
-    border: 1px solid #cccccc; /* Light gray border */
-    border-radius: 4px; /* Rounded edges */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
 }
 
-/* Submit Button Styling */
+
 form button {
-    background-color: #005eb8; /* NHS Blue */
-    color: #ffffff; /* White text */
-    padding: 10px 15px; /* Comfortable button size */
-    font-size: 16px; /* Bigger font for the button */
-    font-weight: bold; /* Bold text */
-    border: none; /* Remove border */
-    border-radius: 4px; /* Rounded edges */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s ease; /* Smooth transition for hover */
+    background-color: #005eb8;
+    color: #ffffff;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 form button:hover {
-    background-color: #003d73; /* Darker NHS Blue on hover */
+    background-color: #003d73;
 }
 
-/* Response Section Styling */
+
 #response {
-    display: none; /* Hidden by default */
+    display: none;
     margin-top: 20px;
     padding: 20px;
     background-color: #e6f7ff;
@@ -260,42 +255,42 @@ form button:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Heading inside the response */
+
 #response h3 {
-    margin-top: 0; /* Remove default margin from heading */
-    color: #005eb8; /* NHS Blue for headings */
-    font-size: 20px; /* Slightly larger font for heading */
+    margin-top: 0;
+    color: #005eb8;
+    font-size: 20px;
 }
 
-/* Key details in bold */
+
 #response strong {
-    color: #333333; /* Emphasize key details with dark text */
+    color: #333333;
 }
 
 #action-response {
     margin-top: 20px;
     padding: 10px 15px;
     font-size: 16px;
-    color: #333; /* Text color */
-    background-color: #e0f7fa; /* Light blue background */
-    border: 1px solid #00acc1; /* Darker blue border */
+    color: #333;
+    background-color: #e0f7fa;
+    border: 1px solid #00acc1;
     border-radius: 8px;
     text-align: center;
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
-    display: none; /* Hide by default */
+    display: none;
 }
 
 #action-response.success {
-    background-color: #d4edda; /* Light green background for success */
-    border-color: #28a745; /* Green border */
-    color: #155724; /* Dark green text */
+    background-color: #d4edda;
+    border-color: #28a745;
+    color: #155724;
 }
 
 
-/* Error or Warning Messages */
+
 .error {
-    color: #d4351c; /* NHS Red for Errors */
+    color: #d4351c;
     font-weight: bold;
 }

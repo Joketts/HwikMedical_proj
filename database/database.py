@@ -1,12 +1,9 @@
 import sqlite3
 from geopy.distance import geodesic
 
-DATABASE_PATH_INCIDENT = 'database/incident_report.db'
-DATABASE_PATH_PATIENT = 'database/patient_records.db'
-
+#Sets up patient records database
 def init_db():
-    # Initialize patient records database
-    conn_patient = sqlite3.connect(DATABASE_PATH_PATIENT)
+    conn_patient = sqlite3.connect('database/patient_records.db')
     cursor_patient = conn_patient.cursor()
     cursor_patient.execute('''CREATE TABLE IF NOT EXISTS patient_records (
         id INTEGER PRIMARY KEY,
@@ -19,29 +16,27 @@ def init_db():
     conn_patient.commit()
     conn_patient.close()
 
+#Adds patient data from incoming incident reports, updating conditions as a list of strings unless its the first time
 def add_new_incident(name, nhs_number, address, condition):
     # Update patient records with the new condition
-    conn_patient = sqlite3.connect(DATABASE_PATH_PATIENT)
+    conn_patient = sqlite3.connect('database/patient_records.db')
     cursor_patient = conn_patient.cursor()
     cursor_patient.execute("SELECT conditions FROM patient_records WHERE nhs_number = ?", (nhs_number,))
     patient_result = cursor_patient.fetchone()
 
     if patient_result:
-        # Add the new condition to the existing list of conditions
         current_conditions = patient_result[0]
         updated_conditions = f"{current_conditions}, {condition}"
         cursor_patient.execute("UPDATE patient_records SET conditions = ? WHERE nhs_number = ?",
                                (updated_conditions, nhs_number))
     else:
-        # Insert a new patient record if it doesn't exist
         cursor_patient.execute("INSERT INTO patient_records (name, nhs_number, address, conditions) VALUES (?, ?, ?, ?)",
                                (name, nhs_number, address, condition))
 
     conn_patient.commit()
     conn_patient.close()
 
-#hospital_code
-
+#gets lon lat for finding nearest hospital
 def get_hospitals():
     conn = sqlite3.connect('database/scottish_hospitals.db')
     cursor = conn.cursor()
@@ -50,7 +45,7 @@ def get_hospitals():
     conn.close()
     return hospitals
 
-
+#finds nearest hospital for rescue request
 def find_nearest_hospital(incident_location):
     hospitals = get_hospitals()
     nearest_hospital = None
@@ -73,7 +68,7 @@ def find_nearest_hospital(incident_location):
 
     return nearest_hospital
 
-#rescue request database
+#rescue request database not needed
 
 def init_rescue_requests_db():
     conn = sqlite3.connect('database/rescue_requests.db')
@@ -96,6 +91,7 @@ def init_rescue_requests_db():
     conn.commit()
     conn.close()
 
+#again just for testing
 def save_rescue_request(request_data):
     conn = sqlite3.connect('database/rescue_requests.db')
     cursor = conn.cursor()
@@ -119,15 +115,6 @@ def save_rescue_request(request_data):
         ))
     conn.commit()
     conn.close()
-
-def update_request_status(request_id, status):
-    conn = sqlite3.connect('database/rescue_requests.db')
-    cursor = conn.cursor()
-    cursor.execute("UPDATE rescue_requests SET status = ? WHERE id = ?", (status, request_id))
-    conn.commit()
-    conn.close()
-
-
 
 if __name__ == '__main__':
     init_db()

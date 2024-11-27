@@ -19,12 +19,10 @@ function submitIncident() {
     .then(response => response.json())
     .then(data => {
         const responseDiv = document.getElementById("response");
-        responseDiv.style.display = "block"; // Show the response box
+        responseDiv.style.display = "block";
 
-        // Display the main message
         let outputText = `<H3>${data.message}</H3>`;
 
-        // Check if there's a rescue request and format it
         if (data.rescue_request) {
             const request = data.rescue_request;
             outputText += `
@@ -40,12 +38,12 @@ function submitIncident() {
         }
 
         responseDiv.innerHTML = outputText;
-        responseDiv.style.display = "block"; // Show the response box
+        responseDiv.style.display = "block";
     })
     .catch(error => {
         console.error('Error:', error);
         const responseDiv = document.getElementById("response");
-        responseDiv.style.display = "block"; // Show the response box
+        responseDiv.style.display = "block";
         responseDiv.innerHTML = "<p>Error submitting incident</p>";
     });
 }

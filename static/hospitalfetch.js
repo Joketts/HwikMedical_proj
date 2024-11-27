@@ -1,11 +1,10 @@
 
-// Fetch and update patient records
 function fetchPatientRecords() {
     fetch('/api/patient_records')
         .then(response => response.json())
         .then(data => {
             const tableBody = document.querySelector('#patient-records tbody');
-            tableBody.innerHTML = ''; // Clear existing rows
+            tableBody.innerHTML = '';
 
             data.forEach(record => {
                 const row = document.createElement('tr');
@@ -14,7 +13,7 @@ function fetchPatientRecords() {
                     <td>${record.nhs_number}</td>
                     <td>${record.address}</td>
                     <td>${record.conditions}</td>
-                    <td>${record.actions || 'No actions recorded'}</td> <!-- Display actions -->
+                    <td>${record.actions || 'No actions recorded'}</td> 
                 `;
                 tableBody.appendChild(row);
             });
@@ -22,8 +21,6 @@ function fetchPatientRecords() {
         .catch(error => console.error('Error fetching patient records:', error));
 }
 
-
-// Fetch and update rescue requests for logged-in hospital
 function fetchRescueRequests() {
     fetch('/api/hospital_rescue_requests')
         .then(response => response.json())
@@ -47,9 +44,7 @@ function fetchRescueRequests() {
         .catch(error => console.error('Error fetching rescue requests:', error));
 }
 
-
-// Fetch data periodically
 setInterval(() => {
     fetchRescueRequests();
     fetchPatientRecords();
-}, 5000); // Update every 5 seconds
+}, 5000);

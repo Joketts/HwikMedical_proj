@@ -3,24 +3,39 @@ import requests
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
-# In-memory storage for available call-outs
+# storage for callouts
 callouts = []
 
-# In-memory storage for logged-in ambulances
+# storage for signed in ambulance (wasn't used)
 ambulances = []
 
+# renders log in page
 @app.route('/')
 def login_page():
     return render_template('ambulance_login.html')
+
+# renders callouts page
 @app.route('/index')
 def index():
     return render_template('ambulance_index.html')
 
+# handles login request
+@app.route('/ambulance/login', methods=['POST'])
+def login():
+    data = request.json
+    reg_number = data.get('registration_number')
+    if reg_number:
+        # adds reg number to global list (wasn't used)
+        ambulances.append(reg_number)
+        return jsonify({"message": "Login successful"})
+    else:
+        return jsonify({"message": "Invalid registration number"}), 400
+
+# gets the patient medical records from the request send from hospital is a combination of
+# rescue request and patient_data
 @app.route('/receive_medical_records', methods=['POST'])
 def receive_medical_records():
     data = request.json
-
-    # Extract data from the request
     patient_data = data.get("patient_data")
     rescue_request = data.get("rescue_request")
 
@@ -35,34 +50,25 @@ def receive_medical_records():
         }
         callouts.append(callout)
 
-        print(f"Call-out added: {callout}")  # Debugging print statement
+        print(f"Call-out added: {callout}")
 
         return jsonify({"message": "Medical records received and stored successfully"}), 200
     else:
         print("Error: Missing patient data or rescue request details.")
         return jsonify({"message": "Invalid data received"}), 400
 
-@app.route('/ambulance/login', methods=['POST'])
-def login():
-    data = request.json
-    reg_number = data.get('registration_number')
-    if reg_number:
-        ambulances.append(reg_number)
-        return jsonify({"message": "Login successful"})
-    else:
-        return jsonify({"message": "Invalid registration number"}), 400
 
-
+# only shows call-outs with Pending status
 @app.route('/ambulance/callouts', methods=['GET'])
 def get_callouts():
     # Serve call-outs with "Pending" or "Pending Actions" status
     relevant_callouts = [
         callout for callout in callouts if callout["status"] in ["Pending", "Pending Actions"]
     ]
-    print(f"Serving call-outs: {relevant_callouts}")  # Debugging print statement
+    print(f"Serving call-outs: {relevant_callouts}")
     return jsonify(relevant_callouts)
 
-
+# handles accepting of callouts, updating status to taken when accepted and sending that back to hospital
 @app.route('/ambulance/accept_callout', methods=['POST'])
 def accept_callout():
     data = request.json
@@ -75,7 +81,6 @@ def accept_callout():
         callout["status"] = "Pending Actions"
         callout["ambulance"] = reg_number
 
-        # Notify the hospital about the accepted callout
         try:
             response = requests.post('http://127.0.0.1:5001/update_request_status', json={
                 "nhs_number": callout["nhs_number"],
@@ -88,22 +93,20 @@ def accept_callout():
         except Exception as e:
             print(f"Error communicating with hospital: {e}")
 
-        # Redirect to actions page regardless of notification success
         return jsonify({"message": f"Call-out {callout_id} accepted"}), 200
 
     return jsonify({"message": "Call-out not found or already taken"}), 400
 
-
+# renders callout details page of accepted callout for actions to be inputted
 @app.route('/ambulance/actions/<int:callout_id>', methods=['GET'])
 def action_page(callout_id):
-    # Find the call-out details to display
     callout = next((c for c in callouts if c["id"] == callout_id), None)
     if callout:
         return render_template('callout_details.html', callout=callout)
     else:
         return jsonify({"message": "Call-out not found"}), 404
 
-
+# submits action taken back to the hospital to update patient records, and updates rescue request status also sent to hospital
 @app.route('/ambulance/submit_actions', methods=['POST'])
 def submit_actions():
     data = request.json
@@ -119,7 +122,6 @@ def submit_actions():
 
         print(f"Submitting actions for call-out {callout_id}: {actions}")
 
-        # Notify the hospital about the status update
         try:
             response = requests.post('http://127.0.0.1:5001/update_request_status', json={
                 "nhs_number": callout["nhs_number"],
@@ -130,7 +132,6 @@ def submit_actions():
         except Exception as e:
             print(f"Error notifying hospital about status update: {e}")
 
-        # Submit the actions to the hospital server
         try:
             response = requests.post("http://127.0.0.1:5001/update_callout", json={
                 "nhs_number": callout["nhs_number"],
