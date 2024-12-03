@@ -1,6 +1,5 @@
 let registrationNumber = null;
 
-// Login function
 function loginAmbulance() {
     const regNumber = document.getElementById('registration_number').value;
 
@@ -25,7 +24,6 @@ function loginAmbulance() {
         .catch((error) => console.error('Error:', error));
 }
 
-// Fetch and display call-outs
 function fetchCallOuts() {
     fetch('/ambulance/callouts')
         .then(response => response.json())
@@ -46,7 +44,6 @@ function fetchCallOuts() {
                     <td>${callOut.patient_name}</td>
                     <td>${callOut.condition}</td>
                     <td>${callOut.incident_address}</td>
-                    <td>${callOut.priority}</td>
                     <td><button onclick="acceptCallOut(${callOut.id})">Accept</button></td>
                 `;
                 tableBody.appendChild(row);
@@ -61,15 +58,53 @@ function acceptCallOut(callOutId) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: callOutId, registration_number: 'REG123' }), // Example reg number
+        body: JSON.stringify({ id: callOutId, registration_number: registrationNumber }),
     })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message); // Notify user
-            fetchCallOuts(); // Refresh the list
+        .then((response) => response.json())
+        .then((data) => {
+            alert(data.message);
+            if (data.message.includes("accepted")) {
+                // Redirect to action page with call-out ID
+                window.location.href = `/ambulance/actions/${callOutId}`;
+            }
         })
-        .catch(error => console.error('Error accepting call-out:', error));
+        .catch((error) => console.error('Error:', error));
 }
 
-// Fetch call-outs every 5 seconds
+function submitActions() {
+    const callOutId = window.location.pathname.split('/').pop(); // Extract call-out ID from URL
+    const actionsTaken = document.getElementById('actions_taken').value;
+
+    fetch('/ambulance/submit_actions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: callOutId,
+            actions: actionsTaken,
+            registration_number: registrationNumber,
+        }),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            const actionResponse = document.getElementById('action-response');
+            actionResponse.innerHTML = `<p>${data.message}</p>`;
+
+            if (data.message.includes("successfully")) {
+                actionResponse.classList.add('success');
+                actionResponse.style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = '/index';
+                }, 2000);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('Failed to submit actions. Please try again.');
+        });
+}
+
+
+
 setInterval(fetchCallOuts, 5000);

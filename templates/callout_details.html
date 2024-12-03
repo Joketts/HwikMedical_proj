@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Ambulance Call-Out Actions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <h1>Call-Out Actions</h1>
+    </header>
+
+    <main class="container">
+        <h2>Call-Out Details</h2>
+        <p><strong>Patient Name:</strong> {{ callout["patient_name"] }}</p>
+        <p><strong>Condition:</strong> {{ callout["condition"] }}</p>
+        <p><strong>Incident Address:</strong> {{ callout["incident_address"] }}</p>
+
+
+        <form id="action-form">
+            <p><strong><label for="actions_taken">Actions Taken:</label></strong></p>
+            <textarea id="actions_taken" name="actions_taken" required></textarea>
+            <button type="button" onclick="submitActions()">Submit Actions</button>
+        </form>
+
+        <div id="action-response"></div>
+    </main>
+
+    <script src="{{ url_for('static', filename='ambulance.js') }}"></script>
+</body>
+
+</html>

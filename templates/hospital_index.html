@@ -2,53 +2,34 @@
 <html lang="en">
 
 <head>
-    <title>Hospital Dashboard</title>
+    <title>Patient Records</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='hospitalfetch.js') }}"></script>
 </head>
 
 <body>
     <header class="header">
-        <h1>Hospital Dashboard</h1>
+        <h1>Patient Records</h1>
+        <a href="{{ url_for('logout') }}">Logout</a>
     </header>
 
     <main class="container">
-        <!-- Incoming Rescue Requests -->
+        <button onclick="window.location.href='{{ url_for('navigation') }}'">Back to Navigation</button>
         <section>
-            <h2>Incoming Rescue Requests</h2>
-                <table id="rescue-requests">
-                        <thead>
-                            <tr>
-                                <th>Patient Name</th>
-                                <th>NHS Number</th>
-                                <th>Condition</th>
-                                <th>Incident Address</th>
-                                <th>Hospital Name</th>
-                                <th>Status</th>
-                                <th>Distance to Hospital</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Rescue requests will be dynamically added here -->
-                        </tbody>
-                </table>
-        </section>
-
-        <!-- Patient Records -->
-        <section>
-            <h2>Patient Records</h2>
+            <h2>All Patient Records</h2>
             <table id="patient-records">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>NHS Number</th>
-                        <th>Address</th>
-                        <th>Conditions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Patient records will be dynamically added here -->
-                </tbody>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>NHS Number</th>
+                            <th>Address</th>
+                            <th>Conditions</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
             </table>
         </section>
     </main>
